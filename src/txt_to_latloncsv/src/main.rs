@@ -1,4 +1,4 @@
-use std::fs::File;
+﻿use std::fs::File;
 use std::io::{BufRead, BufReader, Write};
 use regex::Regex;
 use calamine::{DataType, Reader, open_workbook, Xlsx};
@@ -32,8 +32,8 @@ fn txt_to_latloncsv(openfilename: &str, outputfilename: &str) {
                 lines.next();
             }
 
-            for i in 0..nx {
-                for j in 0..ny {
+            for j in 0..ny {
+                for i in 0..nx {
                     if let Some(Ok(line)) = lines.next() {
                         let parts: Vec<&str> = line.split('\t').collect();
                         writeln!(out, "{},{},{},{}", i, j, parts[0], parts[1]).expect("Failed to write to output file");
@@ -72,7 +72,6 @@ fn main() -> io::Result<()> {
         let mut str_path = PathBuf::from(input_file_path.parent().unwrap());
         str_path.push(format!(r"{} - Region1.txt", name));
 
-        //let openfilename = format!(r"\\ims\J\20240621とりまとめ\ASCII\{} - Region1.txt", name);
         let outputfilename = format!("{}_lat_lon.csv", &str_path.to_str().unwrap()[..&str_path.to_str().unwrap().len()-4]);
         txt_to_latloncsv(&str_path.to_str().unwrap(), &outputfilename);
     }
